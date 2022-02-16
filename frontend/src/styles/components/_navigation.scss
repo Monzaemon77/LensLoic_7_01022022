@@ -1,0 +1,28 @@
+.navigation {
+  margin: 1.6rem 0;
+  display: flex;
+
+  a {
+    color: $color-1;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    margin: 1rem;
+    padding: 0.5rem;
+    position: relative;
+    width: 50%;
+    text-align: center;
+  }
+  .active {
+    &::after {
+      content: "";
+      width: 85%;
+      height: 0.2rem;
+      background-color: red;
+      position: absolute;
+      bottom: 1px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+}

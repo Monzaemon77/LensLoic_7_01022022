@@ -1,10 +1,11 @@
 import React from "react";
+import Header from "../components/Header";
 import Navigation from "../components/Navigation";
 
 const Login = () => {
   return (
-    <div>
-      <h1>Login</h1>
+    <>
+      <Header />
       <Navigation />
       <form action="/" method="post">
         <div>
@@ -14,7 +15,7 @@ const Login = () => {
         </div>
       </form>
       <button>Connexion</button>
-    </div>
+    </>
   );
 };
 

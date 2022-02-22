@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../components/Header";
 import Navigation from "../components/Navigation";
-import SignupForm from "../components/Log/SignupForm";
+import SignupForm from "../components/SignupForm";
 
 const Signup = () => {
   return (

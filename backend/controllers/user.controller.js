@@ -15,6 +15,20 @@ exports.getOneUser = (req, res, next) => {
 };
 
 exports.updateOneUser = (req, res, next) => {
+  if (req.file) {
+    const { id: user_id } = req.params;
+    let { destination, filename } = req.file;
+    destination = destination + filename;
+
+    const sqlInsertImage = `INSERT INTO images (post_id, user_id, img_url) VALUES (NULL, ?, ?)`;
+    db.query(sqlInsertImage, [user_id, destination], (err, result) => {
+      if (err) {
+        res.status(404).json({ err });
+        throw err;
+      }
+    });
+  }
+
   const { id: userId } = req.params;
   const sqlUpdateUser = `UPDATE user SET user_firstname = ?, user_lastname = ?, user_bio = ? WHERE user_id = ?`;
   db.query(
@@ -32,7 +46,17 @@ exports.updateOneUser = (req, res, next) => {
   );
 };
 
-exports.getProfilPicture = (req, res, next) => {};
+exports.getProfilPicture = (req, res, next) => {
+  const { id: user_id } = req.params;
+  const sqlGetUser = `SELECT img_url FROM images WHERE user_id = ? ORDER BY image_id desc;`;
+  db.query(sqlGetUser, [user_id], (err, result) => {
+    if (err) {
+      res.status(404).json({ err });
+      throw err;
+    }
+    res.status(200).json(result);
+  });
+};
 
 exports.deleteUser = (req, res, next) => {
   const { id: userId } = req.params;

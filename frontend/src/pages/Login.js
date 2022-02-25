@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../components/Header";
 import Navigation from "../components/Navigation";
-import LoginForm from "../components/Log/LoginForm";
+import LoginForm from "../components/LoginForm";
 
 const Login = () => {
   return (

@@ -3,22 +3,25 @@ const dbc = require("../config/db");
 
 module.exports = (req, res, next) => {
   try {
-    const token = req.headers.authorization.split(" ")[1];
-    const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
-    const { id: userId } = decodedToken;
-    req.auth = { userId };
-    let db = dbc.getDB();
-    const sql = `SELECT id FROM user WHERE id = ${userId}`;
-    db.query(sql, (err, result) => {
-      if (err) {
-        res.status(204).json(err);
-      } else {
-        next();
-      }
-    });
-  } catch {
-    res.status(401).json({
-      error: new Error("Invalid request!"),
-    });
+    if (req.cookies.jwt) {
+      const { jwt: token } = req.cookies;
+      const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
+      const { user_id: userId } = decodedToken;
+      let db = dbc.getDB();
+      const sql = `SELECT user_id FROM user WHERE user_id = ?`;
+      db.query(sql, [userId], (err, result) => {
+        if (err) res.status(204).json(err);
+        else {
+          next();
+        }
+      });
+    } else {
+      res.clearCookie();
+      res.status(401).json({ message: "Unauthorized" });
+    }
+  } catch (err) {
+    res.clearCookie();
+    console.log(err);
+    res.status(401).json({ message: "Unauthorized" });
   }
 };

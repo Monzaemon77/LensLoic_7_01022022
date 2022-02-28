@@ -14,8 +14,8 @@ exports.signup = (req, res, next) => {
         (err, result) => {
           if (!result) {
             res.status(200).json({
-              message:
-                "Email deja enregistré ou Formulaire incomplet/incorrect",
+              error: true,
+              message: "Email deja enregistré ou Formulaire incomplet",
             });
           } else {
             res.status(201).json({ message: "Utilisateur créé !" });
@@ -34,32 +34,38 @@ exports.login = (req, res, next) => {
     if (err) {
       res.status(404).json({ err });
     }
-    if (result.length <= 0) {
-      res.status(200).json({ message: "Email non trouvé" });
-      return;
-    }
-    const { user_id } = result[0];
-    const match = await bcrypt.compare(
-      req.body.password,
-      result[0].user_password
-    );
-    if (match === true) {
-      const maxAge = 1 * (24 * 60 * 60 * 1000);
-      const token = jwt.sign({ user_id }, "RANDOM_TOKEN_SECRET", {
-        expiresIn: maxAge,
-      });
+    if (result[0]) {
+      const { user_id } = result[0];
+      const match = await bcrypt.compare(
+        req.body.password,
+        result[0].user_password
+      );
+      if (match === true) {
+        const maxAge = 1 * (24 * 60 * 60 * 1000);
+        const token = jwt.sign({ user_id }, "RANDOM_TOKEN_SECRET", {
+          expiresIn: maxAge,
+        });
 
-      delete result[0].user_password;
+        delete result[0].user_password;
 
-      res.cookie("jwt", token, { httpOnly: true });
-      res.status(200).json({
-        user: result[0],
-        token: jwt.sign({ userId: result[0].user_id }, "RANDOM_TOKEN_SECRET", {
-          expiresIn: "24h",
-        }),
-      });
+        res.cookie("jwt", token, { httpOnly: true });
+        res.status(200).json({
+          user: result[0],
+          token: jwt.sign(
+            { userId: result[0].user_id },
+            "RANDOM_TOKEN_SECRET",
+            {
+              expiresIn: "24h",
+            }
+          ),
+        });
+      } else {
+        res
+          .status(200)
+          .json({ error: true, message: "Mot de passe non valide" });
+      }
     } else {
-      res.status(200).json({ message: "Mot de passe non valide" });
+      res.status(200).json({ error: true, messageEmail: "Email inconnu" });
     }
   });
 };

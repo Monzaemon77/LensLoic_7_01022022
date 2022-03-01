@@ -1,15 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import Routes from "./components/Routes";
+import { getUser } from "./actions/user.actions";
 import { UidContext } from "./components/AppContext";
-import Navbar from "./components/Navbar";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Profil from "./pages/Profil";
-import Signup from "./pages/Signup";
 
 const App = () => {
   const [uid, setUid] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchToken = async () => {
@@ -24,18 +22,12 @@ const App = () => {
         .catch((err) => console.log("No Token"));
     };
     fetchToken();
-  }, [uid]);
+
+    if (uid) dispatch(getUser(uid));
+  }, [uid, dispatch]);
   return (
     <UidContext.Provider value={uid}>
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/Profil" element={<Profil />} />
-          <Route path="/Signup" element={<Signup />} />
-          <Route path="/Login" element={<Login />} />
-        </Routes>
-      </BrowserRouter>
+      <Routes />
     </UidContext.Provider>
   );
 };

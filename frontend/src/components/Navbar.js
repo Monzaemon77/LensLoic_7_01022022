@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import logo_left from "../assets/icon-left-font.png";
 import login from "../assets/icons/login.svg";
@@ -7,6 +8,7 @@ import Logout from "./Log/Logout";
 
 const Navigation = () => {
   const uid = useContext(UidContext);
+  const userData = useSelector((state) => state.userReducer);
 
   return (
     <nav>
@@ -23,7 +25,10 @@ const Navigation = () => {
             <li></li>
             <li className="welcome">
               <NavLink to="/Profil">
-                <h5>Bienvenue 'valeur dynamique'</h5>
+                <h5>
+                  Bienvenue {userData[0].user_lastname}{" "}
+                  {userData[0].user_firstname}
+                </h5>
               </NavLink>
             </li>
             <Logout />

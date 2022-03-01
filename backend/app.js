@@ -3,13 +3,25 @@ const cookieParser = require("cookie-parser");
 const path = require("path");
 const dotenv = require("dotenv");
 dotenv.config();
-const auth = require("./middleware/authId.middleware");
+const authId = require("./middleware/authId.middleware");
 const userRoute = require("./routes/user.routes");
 const authRoute = require("./routes/auth.routes");
 const postRoute = require("./routes/post.routes");
 const commentRoute = require("./routes/comment.routes");
+const cors = require("cors");
+const helmet = require("helmet");
 
 const app = express();
+app.use(cookieParser());
+
+const corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true,
+  allowedHeaders: ["sessionId", "Content-Type"],
+  exposedHeaders: ["sessionId"],
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  preflightContinue: false,
+};
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
@@ -25,10 +37,12 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.json());
-app.use(cookieParser());
+app.use(cors(corsOptions));
 
-app.get("/jwtid", auth);
+app.use(helmet());
+app.use(express.json());
+
+app.get("/jwtid", authId);
 
 app.use("/images", express.static(path.join(__dirname, "images")));
 

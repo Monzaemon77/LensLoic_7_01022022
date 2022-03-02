@@ -16,7 +16,9 @@ const Logout = () => {
       url: `${process.env.REACT_APP_API_URL}api/auth/Logout`,
       withCredentials: true,
     })
-      .then(() => removeCookie("jwt"))
+      .then(() => {
+        removeCookie("jwt");
+      })
       .catch((err) => console.log(err));
 
     window.location = "/";

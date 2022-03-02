@@ -3,13 +3,12 @@ const db = dbc.getDB();
 
 exports.getOneUser = (req, res, next) => {
   const { id: userId } = req.params;
-  const sqlGetUser = `SELECT * FROM user WHERE user_id = ?`;
+  const sqlGetUser = `SELECT user_id, user_email, user_bio, user_lastname, user_firstname FROM user WHERE user_id = ?`;
   db.query(sqlGetUser, [userId], (err, result) => {
     if (err) {
       res.status(404).json({ err });
       throw err;
     }
-    delete result[0].user_password;
     res.status(200).json(result);
   });
 };

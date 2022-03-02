@@ -8,8 +8,6 @@ const userRoute = require("./routes/user.routes");
 const authRoute = require("./routes/auth.routes");
 const postRoute = require("./routes/post.routes");
 const commentRoute = require("./routes/comment.routes");
-const cors = require("cors");
-const helmet = require("helmet");
 
 const app = express();
 app.use(cookieParser());
@@ -37,9 +35,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(cors(corsOptions));
-
-app.use(helmet());
 app.use(express.json());
 
 app.get("/jwtid", authId);

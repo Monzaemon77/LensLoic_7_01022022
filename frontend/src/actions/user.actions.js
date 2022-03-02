@@ -4,7 +4,7 @@ export const GET_USER = "GET_USER";
 
 export const getUser = (uid) => {
   return (dispatch) => {
-    return axios({
+    axios({
       method: "GET",
       url: `${process.env.REACT_APP_API_URL}api/user/${uid}`,
       withCredentials: true,

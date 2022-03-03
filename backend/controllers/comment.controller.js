@@ -26,9 +26,8 @@ exports.getOneComment = (req, res) => {
 };
 
 exports.getAllComments = (req, res) => {
-  const postId = req.params.id;
-  const sql = `SELECT * FROM comment WHERE post_id = ?`;
-  db.query(sql, [postId], (err, result) => {
+  const sql = `SELECT * FROM comment`;
+  db.query(sql, (err, result) => {
     if (err) {
       res.status(404).json({ err });
       throw err;

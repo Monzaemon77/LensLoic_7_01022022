@@ -13,6 +13,17 @@ exports.getOneUser = (req, res, next) => {
   });
 };
 
+exports.getAllUser = (req, res, next) => {
+  const sqlGetUser = `SELECT user_id, user_email, user_bio, user_lastname, user_firstname FROM user`;
+  db.query(sqlGetUser, (err, result) => {
+    if (err) {
+      res.status(404).json({ err });
+      throw err;
+    }
+    res.status(200).json(result);
+  });
+};
+
 exports.updateOneUser = (req, res, next) => {
   if (req.file) {
     const { id: user_id } = req.params;
@@ -29,20 +40,16 @@ exports.updateOneUser = (req, res, next) => {
   }
 
   const { id: userId } = req.params;
-  const sqlUpdateUser = `UPDATE user SET user_firstname = ?, user_lastname = ?, user_bio = ? WHERE user_id = ?`;
-  db.query(
-    sqlUpdateUser,
-    [req.body.firstname, req.body.lastname, req.body.bio, userId],
-    (err, result) => {
-      if (err) {
-        res.status(404).json({ err });
-        throw err;
-      }
-      if (result) {
-        res.status(200).json(result);
-      }
+  const sqlUpdateUser = `UPDATE user SET user_bio = ? WHERE user_id = ?`;
+  db.query(sqlUpdateUser, [req.body.bio, userId], (err, result) => {
+    if (err) {
+      res.status(404).json({ err });
+      throw err;
     }
-  );
+    if (result) {
+      res.status(200).json(result);
+    }
+  });
 };
 
 exports.getProfilPicture = (req, res, next) => {

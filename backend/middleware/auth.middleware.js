@@ -16,11 +16,11 @@ module.exports = (req, res, next) => {
         }
       });
     } else {
-      res.clearCookie();
+      //res.clearCookie();
       res.status(401).json({ message: "Unauthorized" });
     }
   } catch (err) {
-    res.clearCookie();
+    //res.clearCookie();
     console.log(err);
     res.status(401).json({ message: "Unauthorized" });
   }

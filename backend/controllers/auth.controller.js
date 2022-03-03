@@ -41,7 +41,7 @@ exports.login = (req, res, next) => {
         result[0].user_password
       );
       if (match === true) {
-        const maxAge = 1 * (24 * 60 * 60 * 1000);
+        const maxAge = 1 * 24 * 60 * 60 * 1000;
         const token = jwt.sign({ user_id }, "RANDOM_TOKEN_SECRET", {
           expiresIn: maxAge,
         });

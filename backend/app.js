@@ -12,15 +12,6 @@ const commentRoute = require("./routes/comment.routes");
 const app = express();
 app.use(cookieParser());
 
-const corsOptions = {
-  origin: "http://localhost:3000",
-  credentials: true,
-  allowedHeaders: ["sessionId", "Content-Type"],
-  exposedHeaders: ["sessionId"],
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  preflightContinue: false,
-};
-
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   res.setHeader(

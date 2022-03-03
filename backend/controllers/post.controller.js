@@ -1,18 +1,13 @@
 const dbc = require("../config/db");
-const jwt = require("jsonwebtoken");
 const db = dbc.getDB();
 
 exports.getAllPosts = (req, res, next) => {
-  const { jwt: token } = req.cookies;
-  const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
-  const { user_id: userId } = decodedToken;
-  const sql = "SELECT * FROM post WHERE user_id = ? ORDER BY datecreate DESC";
-  db.query(sql, [userId], (err, result) => {
+  const sql = "SELECT * FROM post ORDER BY datecreate DESC";
+  db.query(sql, (err, result) => {
     if (err) {
       res.status(404).json({ err });
       throw err;
     }
-    delete result.user_password;
     res.status(200).json(result);
   });
 };
@@ -46,19 +41,18 @@ exports.createPost = (req, res, next) => {
     }
   });
 
-  const post_id = result.insertId;
-  if (file) {
-    const sqlInsertImage = `INSERT INTO images (img_url, post_id) VALUES (?, ?)`;
-    db.query(sqlInsertImage, [file.filename, post_id], (err, result) => {
-      if (err) {
-        res.status(404).json({ err });
-        throw err;
-      }
-      res.status(200).json(result);
-    });
-  } else {
-    res.status(200).json(result);
-  }
+  // if (file) {
+  //   const sqlInsertImage = `INSERT INTO images (img_url, post_id) VALUES (?, ?)`;
+  //   db.query(sqlInsertImage, [file.filename, post_id], (err, result) => {
+  //     if (err) {
+  //       res.status(404).json({ err });
+  //       throw err;
+  //     }
+  //     res.status(200).json(result);
+  //   });
+  // } else {
+  //   res.status(200).json(result);
+  // }
 };
 
 exports.updatePost = (req, res, next) => {

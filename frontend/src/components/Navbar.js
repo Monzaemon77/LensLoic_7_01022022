@@ -8,7 +8,12 @@ import Logout from "./Log/Logout";
 
 const Navigation = () => {
   const uid = useContext(UidContext);
-  const userData = useSelector((state) => state.userReducer[0]);
+  const userLastname = useSelector((state) =>
+    state.userReducer.map((user) => user.user_lastname)
+  );
+  const userFirstname = useSelector((state) =>
+    state.userReducer.map((user) => user.user_firstname)
+  );
 
   return (
     <nav>
@@ -26,7 +31,7 @@ const Navigation = () => {
             <li className="welcome">
               <NavLink to="/Profil">
                 <h5>
-                  Bienvenue {userData.user_lastname} {userData.user_firstname}
+                  Bienvenue {userLastname[0]} {userFirstname[0]}
                 </h5>
               </NavLink>
             </li>

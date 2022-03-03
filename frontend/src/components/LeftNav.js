@@ -9,15 +9,24 @@ const LeftNav = () => {
     <div className="left-nav-container">
       <div className="icons">
         <div className="icons-bis">
-          <NavLink to="/">
+          <NavLink
+            className={(navData) => (navData.isActive ? "active-left-nav" : "")}
+            to="/"
+          >
             <img src={home} alt="home" />
           </NavLink>
           <br />
-          <NavLink to="/trending">
+          <NavLink
+            className={(navData) => (navData.isActive ? "active-left-nav" : "")}
+            to="/trending"
+          >
             <img src={rocket} alt="home" />
           </NavLink>
           <br />
-          <NavLink to="/Profil">
+          <NavLink
+            className={(navData) => (navData.isActive ? "active-left-nav" : "")}
+            to="/Profil"
+          >
             <img src={user} alt="home" />
           </NavLink>
         </div>

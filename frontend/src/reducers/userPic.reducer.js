@@ -1,4 +1,4 @@
-import { GET_USERPIC } from "../actions/userPic.actions";
+import { GET_USERPIC } from "../actions/user.actions";
 
 const initialState = {};
 

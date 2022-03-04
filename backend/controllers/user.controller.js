@@ -3,7 +3,7 @@ const db = dbc.getDB();
 
 exports.getOneUser = (req, res, next) => {
   const { id: userId } = req.params;
-  const sqlGetUser = `SELECT user_id, user_email, user_bio, user_lastname, user_firstname FROM user WHERE user_id = ?`;
+  const sqlGetUser = `SELECT user_id, user_email, user_bio, user_lastname, user_firstname, user_admin FROM user WHERE user_id = ?`;
   db.query(sqlGetUser, [userId], (err, result) => {
     if (err) {
       res.status(404).json({ err });
@@ -14,7 +14,7 @@ exports.getOneUser = (req, res, next) => {
 };
 
 exports.getAllUser = (req, res, next) => {
-  const sqlGetUser = `SELECT user_id, user_email, user_bio, user_lastname, user_firstname FROM user`;
+  const sqlGetUser = `SELECT user_id, user_email, user_bio, user_lastname, user_firstname, user_admin FROM user`;
   db.query(sqlGetUser, (err, result) => {
     if (err) {
       res.status(404).json({ err });

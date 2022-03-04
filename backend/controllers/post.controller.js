@@ -57,7 +57,7 @@ exports.createPost = (req, res, next) => {
 
 exports.updatePost = (req, res, next) => {
   const { id: postId } = req.params;
-  const sqlUpdatePost = `UPDATE post SET post_body = ? WHERE post_id = ? AND user_id = ?`;
+  const sqlUpdatePost = `UPDATE post SET post_body = ? WHERE post_id = ?`;
   db.query(
     sqlUpdatePost,
     [req.body.text, postId, req.body.user_id],

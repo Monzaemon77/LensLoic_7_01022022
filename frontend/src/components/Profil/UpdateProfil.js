@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateBio } from "../../actions/user.actions";
 import LeftNav from "../LeftNav";
+import DeleteProfil from "./DeleteProfil";
 import UploadImg from "./UploadImg";
 
 const UpdateProfil = () => {
@@ -36,10 +37,12 @@ const UpdateProfil = () => {
       <div className="update-container">
         <div className="left-part">
           <h3>Photo de profil</h3>
-          <img
-            src={`${process.env.REACT_APP_API_URL}${userPic.img_url}`}
-            alt="user-pic"
-          />
+          {userPic && (
+            <img
+              src={`${process.env.REACT_APP_API_URL}${userPic.img_url}`}
+              alt="user-pic"
+            />
+          )}
           <UploadImg />
         </div>
         <div className="right-part">
@@ -65,6 +68,7 @@ const UpdateProfil = () => {
             )}
           </div>
           <h4>Membre Normal</h4>
+          <DeleteProfil id={userId[0]} />
           <h5>Abonnements : A venir</h5>
           <h5>Abonnés : A venir</h5>
         </div>

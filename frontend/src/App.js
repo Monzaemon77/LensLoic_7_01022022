@@ -1,20 +1,40 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Profil from "./pages/Profil";
-import Signup from "./pages/Signup";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import Routes from "./components/Routes";
+import { UidContext } from "./components/AppContext";
+import { useDispatch } from "react-redux";
+import { getUser, getUserPic } from "./actions/user.actions";
 
 const App = () => {
+  const [uid, setUid] = useState(null);
+  const dispatch = useDispatch();
+
+  useEffect(
+    () => {
+      const fetchToken = async () => {
+        await axios({
+          method: "GET",
+          url: `${process.env.REACT_APP_API_URL}jwtid`,
+          withCredentials: true,
+        })
+          .then((res) => {
+            setUid(res.data);
+          })
+          .catch((err) => console.log("No Token"));
+      };
+      fetchToken();
+
+      if (uid) dispatch(getUser(uid));
+      if (uid) dispatch(getUserPic(uid));
+    },
+    [uid],
+    dispatch
+  );
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/Profil" element={<Profil />} />
-        <Route path="/Signup" element={<Signup />} />
-        <Route path="/Login" element={<Login />} />
-      </Routes>
-    </BrowserRouter>
+    <UidContext.Provider value={uid}>
+      <Routes />
+    </UidContext.Provider>
   );
 };
 

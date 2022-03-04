@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import Login from "../LoginForm";
-import Signup from "../SignupForm";
+import Login from "./LoginForm";
+import Signup from "./SignupForm";
 
-const Log = () => {
-  const [signUpModal, setSignUpModal] = useState(true);
-  const [loginModal, setLoginModal] = useState(false);
+const Log = (props) => {
+  const [signUpModal, setSignUpModal] = useState(props.signup);
+  const [loginModal, setLoginModal] = useState(props.login);
 
   const handleModals = (e) => {
     if (e.target.id === "register") {

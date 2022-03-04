@@ -26,9 +26,8 @@ exports.getOneComment = (req, res) => {
 };
 
 exports.getAllComments = (req, res) => {
-  const postId = req.params.id;
-  const sql = `SELECT * FROM comment WHERE post_id = ?`;
-  db.query(sql, [postId], (err, result) => {
+  const sql = `SELECT * FROM comment`;
+  db.query(sql, (err, result) => {
     if (err) {
       res.status(404).json({ err });
       throw err;
@@ -38,10 +37,10 @@ exports.getAllComments = (req, res) => {
 };
 
 exports.createComment = (req, res, next) => {
-  const sql = `INSERT INTO comment (user_id, post_id, comment, datecreate, date_update) VALUES (?,?,?,NOW(),NOW())`;
+  const sql = `INSERT INTO comment (commenter_id, post_id, comment, datecreate, date_update) VALUES (?,?,?,NOW(),NOW())`;
   db.query(
     sql,
-    [req.body.user_id, req.body.post_id, req.body.comment],
+    [req.body.commenter_id, req.body.post_id, req.body.comment],
     (err, result) => {
       if (err) {
         res.status(404).json({ err });

@@ -1,13 +1,13 @@
 import React from "react";
 import Header from "../components/Header";
-import Navigation from "../components/Navigation";
-import LoginForm from "../components/LoginForm";
+import Navbar from "../components/Navbar";
+import LoginForm from "../components/Log/LoginForm";
 
 const Login = () => {
   return (
     <>
       <Header />
-      <Navigation />
+      <Navbar />
       <LoginForm />
     </>
   );

@@ -20,9 +20,14 @@ const Login = () => {
       },
     })
       .then((res) => {
-        if (res.data.errors) {
-          emailError.innerHTML = res.data.errors.email;
-          passwordError.innerHTML = res.data.errors.password;
+        if (res.data.error) {
+          if (res.data.messageEmail) {
+            emailError.innerHTML = res.data.messageEmail;
+            passwordError.innerHTML = "";
+          } else {
+            emailError.innerHTML = "";
+            passwordError.innerHTML = res.data.message;
+          }
         } else {
           window.location = "/";
         }

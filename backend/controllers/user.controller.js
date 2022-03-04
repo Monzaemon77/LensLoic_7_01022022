@@ -3,13 +3,23 @@ const db = dbc.getDB();
 
 exports.getOneUser = (req, res, next) => {
   const { id: userId } = req.params;
-  const sqlGetUser = `SELECT * FROM user WHERE user_id = ?`;
+  const sqlGetUser = `SELECT user_id, user_email, user_bio, user_lastname, user_firstname, user_admin FROM user WHERE user_id = ?`;
   db.query(sqlGetUser, [userId], (err, result) => {
     if (err) {
       res.status(404).json({ err });
       throw err;
     }
-    delete result[0].user_password;
+    res.status(200).json(result);
+  });
+};
+
+exports.getAllUser = (req, res, next) => {
+  const sqlGetUser = `SELECT user_id, user_email, user_bio, user_lastname, user_firstname, user_admin FROM user`;
+  db.query(sqlGetUser, (err, result) => {
+    if (err) {
+      res.status(404).json({ err });
+      throw err;
+    }
     res.status(200).json(result);
   });
 };
@@ -30,20 +40,16 @@ exports.updateOneUser = (req, res, next) => {
   }
 
   const { id: userId } = req.params;
-  const sqlUpdateUser = `UPDATE user SET user_firstname = ?, user_lastname = ?, user_bio = ? WHERE user_id = ?`;
-  db.query(
-    sqlUpdateUser,
-    [req.body.firstname, req.body.lastname, req.body.bio, userId],
-    (err, result) => {
-      if (err) {
-        res.status(404).json({ err });
-        throw err;
-      }
-      if (result) {
-        res.status(200).json(result);
-      }
+  const sqlUpdateUser = `UPDATE user SET user_bio = ? WHERE user_id = ?`;
+  db.query(sqlUpdateUser, [req.body.bio, userId], (err, result) => {
+    if (err) {
+      res.status(404).json({ err });
+      throw err;
     }
-  );
+    if (result) {
+      res.status(200).json(result);
+    }
+  });
 };
 
 exports.getProfilPicture = (req, res, next) => {

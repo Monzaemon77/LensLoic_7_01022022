@@ -1,16 +1,25 @@
-import Navigation from "../components/Navigation";
-import Header from "../components/Header";
+import Navbar from "../components/Navbar";
+import LeftNav from "../components/LeftNav";
+import Thread from "../components/Thread";
+import { useContext } from "react";
+import { UidContext } from "../components/AppContext";
+import NewPostForm from "../components/Post/NewPostForm";
+import Log from "../components/Log";
 
 const Home = () => {
+  const uid = useContext(UidContext);
+
   return (
-    <>
-      <Header />
-      <Navigation />
-      Bienvenue sur le reseau social de Groupomania, si vous avez un compte,
-      connecter vous sur la page Connexion.
-      <br />
-      Sinon on vous invite à créer votre profil grâce à la page Inscription.
-    </>
+    <div className="home">
+      <Navbar />
+      <LeftNav />
+      <div className="main">
+        <div className="home-header">
+          {uid ? <NewPostForm /> : <Log login={true} signup={false} />}
+        </div>
+        <Thread />
+      </div>
+    </div>
   );
 };
 

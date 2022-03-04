@@ -16,12 +16,12 @@ const LeftNav = () => {
             <img src={home} alt="home" />
           </NavLink>
           <br />
-          <NavLink
+          {/* <NavLink
             className={(navData) => (navData.isActive ? "active-left-nav" : "")}
             to="/trending"
           >
             <img src={rocket} alt="home" />
-          </NavLink>
+          </NavLink> */}
           <br />
           <NavLink
             className={(navData) => (navData.isActive ? "active-left-nav" : "")}

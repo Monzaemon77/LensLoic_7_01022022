@@ -4,9 +4,9 @@ import { dateParser, isEmpty } from "../Utils";
 import commentIcon from "../../assets/icons/message1.svg";
 import iconShare from "../../assets/icons/share.svg";
 import iconEdit from "../../assets/icons/edit.svg";
-import { getPosts, updatePost } from "../../actions/post.actions";
+import { updatePost } from "../../actions/post.actions";
 import DeleteCard from "./DeleteCard";
-import CardComments from "./CardComments";
+// import CardComments from "./CardComments";
 
 const Card = ({ post }) => {
   const [isLoading, setIsLoading] = useState(true);

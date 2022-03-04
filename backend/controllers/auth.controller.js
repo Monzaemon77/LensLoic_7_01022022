@@ -7,10 +7,10 @@ exports.signup = (req, res, next) => {
   bcrypt
     .hash(req.body.password, 10)
     .then((hash) => {
-      const sql = `INSERT INTO user (user_email, user_password, user_firstname, user_lastname) VALUES (?,?,?,?)`;
+      const sql = `INSERT INTO user (user_email, user_password, user_firstname, user_lastname, user_admin) VALUES (?,?,?,?,?)`;
       db.query(
         sql,
-        [req.body.email, hash, req.body.firstname, req.body.lastname],
+        [req.body.email, hash, req.body.firstname, req.body.lastname, false],
         (err, result) => {
           if (!result) {
             res.status(200).json({

@@ -14,7 +14,9 @@ const Card = ({ post }) => {
   const [textUpdate, setTextUpdate] = useState(null);
   const [showComment, setShowComment] = useState(false);
   const usersData = useSelector((state) => state.usersReducer);
-  const userData = useSelector((state) => state.userReducer);
+  const userDataAdmin = useSelector((state) =>
+    state.userReducer.map((user) => user.user_admin)
+  );
   const userId = useSelector((state) =>
     state.userReducer.map((user) => user.user_id)
   );
@@ -81,7 +83,7 @@ const Card = ({ post }) => {
                 <DeleteCard id={post.post_id} />
               </div>
             )}
-            {userData[0].user_admin === 1 && (
+            {userDataAdmin[0] === 1 && (
               <div className="button-container">
                 <DeleteCard id={post.post_id} />
               </div>

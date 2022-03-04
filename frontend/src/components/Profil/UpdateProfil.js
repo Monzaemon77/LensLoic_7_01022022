@@ -37,13 +37,13 @@ const UpdateProfil = () => {
       <div className="update-container">
         <div className="left-part">
           <h3>Photo de profil</h3>
-          {userPic && (
+          {/* {userPic && (
             <img
               src={`${process.env.REACT_APP_API_URL}${userPic.img_url}`}
               alt="user-pic"
             />
           )}
-          <UploadImg />
+          <UploadImg /> */}
         </div>
         <div className="right-part">
           <div className="bio-update">
@@ -67,7 +67,8 @@ const UpdateProfil = () => {
               </>
             )}
           </div>
-          <h4>Membre Normal</h4>
+          <h4>SUPPRIMER SON COMPTE</h4>
+          Cliquez sur la poubelle
           <DeleteProfil id={userId[0]} />
           <h5>Abonnements : A venir</h5>
           <h5>Abonnés : A venir</h5>

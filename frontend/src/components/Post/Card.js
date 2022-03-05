@@ -6,7 +6,7 @@ import iconShare from "../../assets/icons/share.svg";
 import iconEdit from "../../assets/icons/edit.svg";
 import { updatePost } from "../../actions/post.actions";
 import DeleteCard from "./DeleteCard";
-// import CardComments from "./CardComments";
+import CardComments from "./CardComments";
 
 const Card = ({ post }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -109,7 +109,7 @@ const Card = ({ post }) => {
               <h6>Like button</h6>
               <img src={iconShare} alt="icon share" />
             </div>
-            {/* {showComment && <CardComments post={post} />} */}
+            {showComment && <CardComments post={post} />}
           </div>
         </>
       )}

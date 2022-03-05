@@ -1,63 +1,75 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { addComment, getcomment } from "../../actions/comment.actions";
 import { isEmpty, timestampParser } from "../Utils";
+import DeleteCard from "./DeleteCard";
 
-const CardComments = () => {
+const CardComments = ({ post }) => {
   const [text, setText] = useState("");
   const usersData = useSelector((state) => state.usersReducer);
   const userId = useSelector((state) =>
     state.userReducer.map((user) => user.user_id)
   );
   const commentData = useSelector((state) => state.commentReducer);
+  const userDataAdmin = useSelector((state) =>
+    state.userReducer.map((user) => user.user_admin)
+  );
+
   const dispatch = useDispatch();
 
-  const handleComment = (e) => {
+  const handleComment = async (e) => {
     e.preventDefault();
     if (text) {
-      const data = new FormData();
-      data.append("user_id");
-      data.append("post_id");
-      data.append("comment");
+      await dispatch(addComment(userId[0], post.post_id, text));
+      dispatch(getcomment());
+      window.location = "/";
     }
   };
 
   return (
     <div className="comments-container">
       {commentData.map((comment) => {
-        return (
-          <div
-            className={
-              comment.user_id === userId[0]
-                ? "comment-container client"
-                : "comment-container"
-            }
-            key={comment.comment_id}
-          >
-            <div className="left-part"></div>
-            <div className="right-part">
-              <div className="comment-header">
-                <div className="pseudo">
-                  <h3>
-                    {!isEmpty(usersData[0]) &&
-                      usersData.map((user) => {
-                        if (user.user_id === comment.user_id)
-                          return user.user_lastname;
-                        else return null;
-                      })}{" "}
-                    {!isEmpty(usersData[0]) &&
-                      usersData.map((user) => {
-                        if (user.user_id === comment.user_id)
-                          return user.user_firstname;
-                        else return null;
-                      })}
-                  </h3>
+        if (comment.post_id === post.post_id)
+          return (
+            <div
+              className={
+                comment.commenter_id === userId[0]
+                  ? "comment-container client"
+                  : "comment-container"
+              }
+              key={comment.comment_id}
+            >
+              <div className="left-part"></div>
+              <div className="right-part">
+                <div className="comment-header">
+                  <div className="pseudo">
+                    <h3>
+                      {!isEmpty(usersData[0]) &&
+                        usersData.map((user) => {
+                          if (user.user_id === comment.commenter_id)
+                            return user.user_lastname;
+                          else return null;
+                        })}{" "}
+                      {!isEmpty(usersData[0]) &&
+                        usersData.map((user) => {
+                          if (user.user_id === comment.commenter_id)
+                            return user.user_firstname;
+                          else return null;
+                        })}
+                    </h3>
+                  </div>
+                  <span>{timestampParser(comment.date_update)}</span>
                 </div>
-                <span>{timestampParser(comment.date_update)}</span>
+                <p>{comment.comment}</p>
               </div>
-              <p>{comment.comment}</p>
+              {userDataAdmin[0] === 1 && (
+                <div className="button-container">
+                  <DeleteCard id={comment.comment_id} />
+                </div>
+              )}
             </div>
-          </div>
-        );
+          );
+        return null;
       })}
       {userId && (
         <form action="" onSubmit={handleComment} className="comment-form">

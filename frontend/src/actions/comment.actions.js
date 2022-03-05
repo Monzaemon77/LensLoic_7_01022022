@@ -3,6 +3,7 @@ import axios from "axios";
 // Comment
 export const GET_COMMENT = "GET_COMMENT";
 export const ADD_COMMENT = "ADD_COMMENT";
+export const DELETE_COMMENT = "DELETE_COMMENT";
 
 export const getcomment = (postid) => {
   return (dispatch) => {
@@ -19,16 +20,26 @@ export const getcomment = (postid) => {
   };
 };
 
-export const addComment = (user_id, post_id, comment) => {
+export const addComment = (commenter_id, post_id, comment) => {
   return (dispatch) => {
     axios({
       method: "POST",
       url: `${process.env.REACT_APP_API_URL}api/comment/`,
-      data: { user_id, post_id, comment },
+      data: { commenter_id, post_id, comment },
+      withCredentials: true,
+    });
+  };
+};
+
+export const deleteComment = (commentId) => {
+  return (dispatch) => {
+    axios({
+      method: "DELETE",
+      url: `${process.env.REACT_APP_API_URL}api/comment/${commentId}`,
       withCredentials: true,
     })
       .then((res) => {
-        dispatch({ type: ADD_COMMENT, payload: { user_id, post_id, comment } });
+        dispatch({ type: DELETE_COMMENT, payload: { commentId } });
       })
       .catch((err) => console.log(err));
   };

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addComment, getcomment } from "../../actions/comment.actions";
 import { isEmpty, timestampParser } from "../Utils";
-import DeleteCard from "./DeleteCard";
+import DeleteComment from "./DeleteComment";
 
 const CardComments = ({ post }) => {
   const [text, setText] = useState("");
@@ -64,7 +64,7 @@ const CardComments = ({ post }) => {
               </div>
               {userDataAdmin[0] === 1 && (
                 <div className="button-container">
-                  <DeleteCard id={comment.comment_id} />
+                  <DeleteComment id={comment.comment_id} />
                 </div>
               )}
             </div>

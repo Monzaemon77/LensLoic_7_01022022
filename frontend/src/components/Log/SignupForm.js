@@ -25,13 +25,20 @@ const Signup = () => {
     passwordConfirmError.innerHTML = "";
     termsError.innerHTML = "";
 
-    if (password !== controlPassword || !terms.checked) {
-      if (password !== controlPassword) {
-        passwordConfirmError.innerHTML =
-          "Les mots de passe ne correspondent pas";
-      }
-      if (!terms.checked) {
-        termsError.innerHTML = "Veuillez valider les conditions générales";
+    let reg = new RegExp(
+      "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+    ).test(email);
+    if (!reg) {
+      emailError.innerHTML = "Email non valide";
+
+      if (password !== controlPassword || !terms.checked) {
+        if (password !== controlPassword) {
+          passwordConfirmError.innerHTML =
+            "Les mots de passe ne correspondent pas";
+        }
+        if (!terms.checked) {
+          termsError.innerHTML = "Veuillez valider les conditions générales";
+        }
       }
     } else {
       axios({
